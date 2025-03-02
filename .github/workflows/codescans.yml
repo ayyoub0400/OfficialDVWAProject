@@ -1,0 +1,51 @@
+name: Code Security Scans & Test
+
+on:
+    workflow_call:
+        secrets:
+            SNYK_TOKEN:
+                required: true
+
+jobs:
+    codeql-scan:
+        permissions:
+            contents: read
+            security-events: write
+            actions: read
+            pull-requests: read
+
+        timeout-minutes: 10
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Initialize CodeQL
+              uses: github/codeql-action/init@v3
+              with:
+                languages: 'javascript'
+
+            - name: Perform CodeQL Analysis
+              uses: github/codeql-action/analyze@v3
+
+    snyk-check:
+        timeout-minutes: 5
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+        defaults:
+            run:
+                working-directory: ./app
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: NPM install
+              run: npm install
+
+            - uses: snyk/actions/setup@master
+            - name: Snyk test
+              run: snyk test
+              env:
+                SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+

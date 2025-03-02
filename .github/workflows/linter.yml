@@ -1,0 +1,26 @@
+name: Code Linter
+
+on:
+    workflow_call:
+
+jobs:
+    dockerlint:
+        timeout-minutes: 5
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - uses: hadolint/hadolint-action@v3.1.0
+              with:
+                dockerfile: app/Dockerfile
+
+    actionlint:
+      runs-on: ubuntu-latest
+      timeout-minutes: 5
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+
+        - name: Linting the GitHub Actions workflow file
+          uses: reviewdog/action-actionlint@v1.63.0
