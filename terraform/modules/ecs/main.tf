@@ -9,6 +9,12 @@ resource "aws_ecs_cluster" "cluster" {
     }
 }
 
+#Cloudwatch log group
+resource "aws_cloudwatch_log_group" "ecs_log_group" {
+    name = "/ecs/${var.env}-logs"
+    retention_in_days = 7
+}
+
 resource "aws_ecs_task_definition" "ecstask" {
     family = "${var.env}-ecs-task"
     network_mode = "awsvpc"
@@ -30,12 +36,57 @@ resource "aws_ecs_task_definition" "ecstask" {
                     protocol = "tcp"
                 }
             ]
+            logConfiguration = {
+            logDriver = "awslogs"
+            options = {
+              "awslogs-group"         = "/ecs/${var.env}-logs"
+              "awslogs-region"        = "us-east-1"
+              "awslogs-stream-prefix" = "ecs"
+            }
+            }
             tags = {
                 environment = var.env
             }
             }
     ])
 }
+
+resource "aws_cloudwatch_dashboard" "main" {
+  dashboard_name = "${var.env}-dashboard"
+  dashboard_body = jsonencode({
+    widgets = [
+      {
+        type  = "metric",
+        x     = 0,
+        y     = 0,
+        width = 12,
+        height = 6,
+        properties = {
+          metrics = [
+            [ "AWS/ECS", "CPUUtilization", "ClusterName", aws_ecs_cluster.cluster.name ],
+            [ ".", "MemoryUtilization", ".", "." ]
+          ],
+          period = 300,
+          region = "us-east-1",
+          title  = "ECS Cluster Utilization"
+        }
+      },
+      {
+        type  = "log",
+        x     = 12,
+        y     = 0,
+        width = 12,
+        height = 6,
+        properties = {
+          query  = "SOURCE \"/ecs/${var.env}-logs\" | fields @timestamp, @message",
+          region = "us-east-1",
+          title  = "ECS Container Logs"
+        }
+      }
+    ]
+  })
+}
+
 
 resource "aws_lb" "ecs_alb" {
   name               = "ecs-alb"
