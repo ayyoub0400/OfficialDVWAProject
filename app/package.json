@@ -1,0 +1,24 @@
+{
+  "name": "moodtunes",
+  "version": "1.0.0",
+  "description": "Generate playlists based on weather and mood",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "axios": "^1.6.2",
+    "dotenv": "^16.3.1",
+    "cors": "^2.8.5",
+    "colors": "^1.4.0",
+    "figlet": "^1.7.0",
+    "node-cache": "^5.1.2",
+    "moment": "^2.29.4",
+    "cross-spawn": "^7.0.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

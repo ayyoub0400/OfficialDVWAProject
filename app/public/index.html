@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MoodTunes - Weather & Mood Based Playlists</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>MoodTunes</h1>
+      <p>Discover playlists based on your mood and local weather</p>
+    </header>
+
+    <main>
+      <section class="form-section">
+        <div class="card">
+          <h2>Create Your Playlist</h2>
+          <div class="form-group">
+            <label for="location">Location:</label>
+            <input type="text" id="location" placeholder="Enter your city">
+          </div>
+          
+          <div class="form-group">
+            <label for="mood">Your Mood:</label>
+            <select id="mood">
+              <option value="">Select your mood</option>
+              <!-- Moods will be populated by JavaScript -->
+            </select>
+          </div>
+          
+          <button id="generate-btn">Generate Playlist</button>
+        </div>
+      </section>
+
+      <section class="weather-section hidden" id="weather-card">
+        <div class="card">
+          <h2>Current Weather</h2>
+          <div id="weather-info">
+            <!-- Weather info will be populated by JavaScript -->
+          </div>
+        </div>
+      </section>
+
+      <section class="playlist-section hidden" id="playlist-card">
+        <div class="card">
+          <h2>Your Personalized Playlist</h2>
+          <div id="playlist-info">
+            <!-- Playlist will be populated by JavaScript -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>MoodTunes © 2025 | Created with Express & Node.js</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

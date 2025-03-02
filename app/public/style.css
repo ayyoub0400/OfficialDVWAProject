@@ -1,0 +1,172 @@
+:root {
+  --primary-color: #6a89cc;
+  --secondary-color: #82ccdd;
+  --accent-color: #b8e994;
+  --text-color: #3d3d3d;
+  --bg-color: #f5f6fa;
+  --card-bg: #ffffff;
+  --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 20px 0;
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  color: white;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.card {
+  background-color: var(--card-bg);
+  border-radius: 10px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: var(--shadow);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+button {
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: block;
+  width: 100%;
+}
+
+button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.hidden {
+  display: none;
+}
+
+#weather-info, #playlist-info {
+  margin-top: 15px;
+}
+
+.weather-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.weather-icon {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.song-item {
+  padding: 15px;
+  margin: 10px 0;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.song-title {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.song-artist {
+  color: #666;
+  margin-top: 5px;
+}
+
+.song-tags {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background-color: var(--secondary-color);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-size: 12px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.mood-tag {
+  background-color: var(--accent-color);
+}
+
+.playlist-header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+footer {
+  text-align: center;
+  margin-top: 40px;
+  padding: 20px 0;
+  color: #777;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+  
+  .card {
+    padding: 15px;
+  }
+}
