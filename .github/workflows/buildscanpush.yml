@@ -1,0 +1,48 @@
+name: Build, Scan & Push Image
+
+on:
+    workflow_call:
+        secrets:
+            AWS_ACCESS_KEY_ID:
+                required: true
+            AWS_SECRET_ACCESS_KEY:
+                required: true
+            AWS_REGION:
+                required: true
+
+jobs:
+    ecrscanandpush:
+      runs-on: ubuntu-latest
+      timeout-minutes: 15
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+      
+        - name: Configure AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v4
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ${{ secrets.AWS_REGION }}
+
+        - name: Login to Amazon ECR Private
+          id: login-ecr
+          uses: aws-actions/amazon-ecr-login@v2
+
+        - name: Build, tag the image 
+          id: build-image
+          run: docker build -t ${{ steps.login-ecr.outputs.registry }}/${{ vars.REPOSITORY }}:latest ./app
+
+        - name: Scan image
+          id: trivyscan
+          uses: aquasecurity/trivy-action@0.29.0
+          with:
+            image-ref: ${{ steps.login-ecr.outputs.registry }}/${{ vars.REPOSITORY }}:latest
+            format: table
+            exit-code: 1
+            ignore-unfixed: true
+            vuln-type: os,library
+            severity: CRITICAL
+
+        - name: Push image to Amazon ECR
+          run: docker push ${{ steps.login-ecr.outputs.registry }}/${{ vars.REPOSITORY }}:latest
