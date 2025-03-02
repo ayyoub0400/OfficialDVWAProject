@@ -52,4 +52,52 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
 
+  dastscan:
+    needs: pushtotest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: alb_dns_artifact
+          path: .
+      
+      - name: text to var
+        id: conversion
+        run: echo "website=$(cat alb_dns.txt)" >> $GITHUB_OUTPUT
+
+      - name: ZAP Scan
+        uses: zaproxy/action-full-scan@v0.12.0
+        with:
+          target: "http://${{ steps.conversion.outputs.website }}:3000"
+        continue-on-error: true
+
+  destroytest:
+    needs: [dastscan, pushtotest]
+    defaults:
+      run:
+        working-directory: terraform/environments/test
+    if: ${{ github.event_name == 'pull' || github.event_name == 'push' }} && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Creds
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Setup TF
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Initialise TF
+        run: terraform init
+
+      - name: terraform destroy
+        run: terraform destroy --auto-approve
