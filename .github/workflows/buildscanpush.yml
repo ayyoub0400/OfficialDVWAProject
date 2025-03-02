@@ -31,13 +31,13 @@ jobs:
 
         - name: Build, tag the image 
           id: build-image
-          run: docker build -t ${{ steps.login-ecr.outputs.registry }}/${{ vars.REPOSITORY }}:latest ./app
+          run: docker build -t ${{ steps.login-ecr.outputs.registry }}/DVWA:latest ./app
 
         - name: Scan image
           id: trivyscan
           uses: aquasecurity/trivy-action@0.29.0
           with:
-            image-ref: ${{ steps.login-ecr.outputs.registry }}/${{ vars.REPOSITORY }}:latest
+            image-ref: ${{ steps.login-ecr.outputs.registry }}/DVWA:latest
             format: table
             exit-code: 1
             ignore-unfixed: true
@@ -45,4 +45,4 @@ jobs:
             severity: CRITICAL
 
         - name: Push image to Amazon ECR
-          run: docker push ${{ steps.login-ecr.outputs.registry }}/${{ vars.REPOSITORY }}:latest
+          run: docker push ${{ steps.login-ecr.outputs.registry }}/DVWA:latest
