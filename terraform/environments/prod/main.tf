@@ -27,3 +27,15 @@ module "vpc" {
     public_subnet_2_cidr = var.public_subnet_2_cidr
 
 }
+
+module "ecs" {
+    source = "../../modules/ecs"
+    env = var.env
+    vpc_id = module.vpc.vpc_id
+    public_subnet_ids = module.vpc.public_subnet_ids
+    security_group_id = module.vpc.security_group_id
+    }
+
+output "alb_dns" {
+  value = module.ecs.alb_dns
+}
