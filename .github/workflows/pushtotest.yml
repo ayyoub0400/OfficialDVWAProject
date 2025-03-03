@@ -2,7 +2,7 @@ name: Deploy to Test
 
 on:
     workflow_call:
-      outputs:
+        outputs:
             alb_dns:
                 value: ${{ jobs.tfoutput.outputs.alb_dns }}
         secrets:
