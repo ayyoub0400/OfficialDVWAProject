@@ -2,6 +2,9 @@ name: Deploy to Test
 
 on:
     workflow_call:
+      outputs:
+            alb_dns:
+                value: ${{ jobs.tfoutput.outputs.alb_dns }}
         secrets:
             AWS_ACCESS_KEY_ID:
                 required: true
