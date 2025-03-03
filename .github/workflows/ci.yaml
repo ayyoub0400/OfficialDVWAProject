@@ -16,11 +16,11 @@ concurrency:
     cancel-in-progress: true
 
 permissions:
-            contents: read
+            contents: write
             security-events: write
             actions: read
             pull-requests: read
-            
+
 jobs:
   lint:
     uses: ./.github/workflows/linter.yml 
