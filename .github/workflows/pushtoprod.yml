@@ -48,4 +48,5 @@ jobs:
               
             - name: Apply terraform
               run: |
-                terraform apply --auto-approve 
+                terraform apply --auto-approve
+                echo "ALB_DNS=$(terraform output -raw alb_dns)" >> $GITHUB_OUTPUT

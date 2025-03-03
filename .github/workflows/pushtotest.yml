@@ -47,4 +47,15 @@ jobs:
               
             - name: Provision TF infra
               run: terraform apply --auto-approve
+
+            - name: tfoutput
+              id: tfoutput
+              run: |
+                terraform output -raw alb_dns > /tmp/alb_dns.txt
+                cat /tmp/alb_dns.txt
+            - name: upload artifact
+              uses: actions/upload-artifact@v4
+              with:
+                name: alb_dns_artifact
+                path: /tmp/alb_dns.txt
             
