@@ -15,7 +15,12 @@ concurrency:
     group: ${{ github.workflow }}-${{ github.ref }}
     cancel-in-progress: true
 
-
+permissions:
+            contents: read
+            security-events: write
+            actions: read
+            pull-requests: read
+            
 jobs:
   lint:
     uses: ./.github/workflows/linter.yml 
