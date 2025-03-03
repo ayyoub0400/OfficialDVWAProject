@@ -8,10 +8,6 @@ on:
                 required: true
                 default: ""
                 type: string
-concurrency:
-    group: terraform-actions
-    cancel-in-progress: false
-    
 jobs:
     pushtotest:
         if: ${{ github.event.inputs.confirmenv == 'test' }}
