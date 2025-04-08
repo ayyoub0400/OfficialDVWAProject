@@ -1,8 +1,8 @@
-﻿# DevOps CI/CD Pipeline 🚀
+﻿# Security Focused DevOps CI/CD Pipeline 🚀
 
 ## Overview 🛠️
 
-This project implements a secure CI/CD pipeline with automated security scans, Infrastructure as Code (IaC) validation, and environment-based deployments using AWS services. The pipeline integrates security tools like CodeQL, Snyk, Trivy, Checkov, and ZAP to ensure high code quality and security.
+This project implements a security focused CI/CD pipeline with automated security scans, Infrastructure as Code (IaC) validation, and environment-based deployments using AWS services. The pipeline integrates security tools like CodeQL, Snyk, Trivy, Checkov, and ZAP to ensure high code quality and security.
 
 ## Architecture 🏗️
 
@@ -103,6 +103,3 @@ This project implements a secure CI/CD pipeline with automated security scans, I
 *   Add SonarQube for code quality checks.
 *   Enhance observability with AWS X-Ray.
 
-## Contributors 👥
-
-Your Name (@ayyoub0400)
